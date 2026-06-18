@@ -1,5 +1,6 @@
 import { MapPin } from "lucide-react";
 
+import EmptyState from "../../components/EmptyState.jsx";
 import { formatCoordinate } from "../../utils/formatters.js";
 
 function positionForCoordinate(value, min, max) {
@@ -10,19 +11,19 @@ function positionForCoordinate(value, min, max) {
 }
 
 export default function HouseholdMap({ owners }) {
+  const mappedOwners = owners.filter((owner) => owner.latitude !== null && owner.longitude !== null);
+
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <div>
-          <h2 className="text-base font-semibold text-ink">Registered Household Locations</h2>
-          <p className="text-sm text-slate-500">Coordinates are sourced from owner records.</p>
-        </div>
-        <MapPin className="h-5 w-5 text-clinic" aria-hidden="true" />
-      </div>
-      <div className="map-grid relative min-h-80 overflow-hidden rounded-md border border-slate-200 bg-skywash">
-        {owners
-          .filter((owner) => owner.latitude !== null && owner.longitude !== null)
-          .map((owner) => (
+    <div>
+      {mappedOwners.length === 0 ? (
+        <EmptyState
+          icon={MapPin}
+          title="No mapped households"
+          description="Owner records with latitude and longitude will appear on this map."
+        />
+      ) : (
+        <div className="map-grid relative min-h-80 overflow-hidden rounded-2xl border border-cyan-100/14 bg-slate-950/24">
+          {mappedOwners.map((owner) => (
             <div
               key={owner.owner_id}
               className="absolute -translate-x-1/2 -translate-y-1/2"
@@ -32,10 +33,11 @@ export default function HouseholdMap({ owners }) {
               }}
               title={`${owner.full_name}: ${formatCoordinate(owner.latitude)}, ${formatCoordinate(owner.longitude)}`}
             >
-              <span className="block h-3 w-3 rounded-full border-2 border-white bg-clinic shadow" />
+              <span className="block h-4 w-4 rounded-full border-2 border-white bg-health shadow-lg shadow-emerald-950/40" />
             </div>
           ))}
-      </div>
-    </section>
+        </div>
+      )}
+    </div>
   );
 }

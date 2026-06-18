@@ -18,6 +18,12 @@ services:
         value: 120
       - key: DATABASE_URL
         sync: false
+      - key: USE_DATABASE_URL
+        value: true
+      - key: USE_POSTGRES
+        value: false
+      - key: IDENTIPET_MANAGE_SCHEMA
+        value: false
       - key: DATABASE_SSL_REQUIRE
         value: true
       - key: DJANGO_ALLOWED_HOSTS

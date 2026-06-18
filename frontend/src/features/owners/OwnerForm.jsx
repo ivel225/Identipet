@@ -40,10 +40,10 @@ export default function OwnerForm({ onSaved }) {
   }
 
   return (
-    <form className="grid gap-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm" onSubmit={handleSubmit}>
+    <form className="glass-panel grid gap-4 rounded-xl p-4" onSubmit={handleSubmit}>
       <div>
-        <h2 className="text-base font-semibold text-ink">Owner Registration</h2>
-        <p className="text-sm text-slate-500">Create an owner or enter an owner ID to update an existing household.</p>
+        <h2 className="text-base font-semibold text-white">Owner Registration</h2>
+        <p className="text-sm text-white/58">Create an owner or enter an owner ID to update an existing household.</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <FormField label="Owner ID for update" id="owner-id" value={ownerId} onChange={(event) => setOwnerId(event.target.value)} />
@@ -54,7 +54,7 @@ export default function OwnerForm({ onSaved }) {
         <FormField label="Longitude" id="owner-longitude" type="number" step="any" value={owner.longitude} onChange={(event) => updateOwner("longitude", event.target.value)} />
       </div>
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-slate-500">{status === "saved" ? "Owner saved." : "Ready."}</p>
+        <p className="text-sm text-white/58">{status === "saved" ? "Owner saved." : "Ready."}</p>
         <Button icon={Save} disabled={status === "saving"} type="submit">
           {ownerId ? "Update Owner" : "Create Owner"}
         </Button>

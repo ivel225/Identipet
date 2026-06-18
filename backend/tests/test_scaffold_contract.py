@@ -18,6 +18,7 @@ class BackendScaffoldContractTests(unittest.TestCase):
             "api/authentication.py",
             "api/views.py",
             "api/urls.py",
+            "api/management/commands/create_superadmin.py",
             "api/tests/test_api_endpoints.py",
         ]
 
@@ -51,6 +52,12 @@ class BackendScaffoldContractTests(unittest.TestCase):
             "api/authentication.py": [
                 "class IdentipetJWTAuthentication(",
                 "jwt.decode",
+            ],
+            "api/management/commands/create_superadmin.py": [
+                "class Command(BaseCommand)",
+                "create_superadmin",
+                "set_password",
+                "User.Roles.ADMINISTRATOR",
             ],
         }
 

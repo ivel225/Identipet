@@ -37,11 +37,11 @@ export default function NfcTagAssignmentForm({ onSaved }) {
   }
 
   return (
-    <form className="grid gap-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm" onSubmit={handleSubmit}>
+    <form className="glass-panel grid gap-4 rounded-xl p-4" onSubmit={handleSubmit}>
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-base font-semibold text-ink">NFC Tag Assignment</h2>
-          <p className="text-sm text-slate-500">Assign or update an NTAG215 unique code for a registered pet.</p>
+          <h2 className="text-base font-semibold text-white">NFC Tag Assignment</h2>
+          <p className="text-sm text-white/58">Assign or update an NTAG215 unique code for a registered pet.</p>
         </div>
         <Radio className="h-5 w-5 text-clinic" aria-hidden="true" />
       </div>
@@ -57,7 +57,7 @@ export default function NfcTagAssignmentForm({ onSaved }) {
         </FormField>
       </div>
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-slate-500">{status === "saved" ? "NFC tag saved." : "Ready."}</p>
+        <p className="text-sm text-white/58">{status === "saved" ? "NFC tag saved." : "Ready."}</p>
         <Button icon={Save} disabled={status === "saving"} type="submit">
           {tagId ? "Update Tag" : "Assign Tag"}
         </Button>

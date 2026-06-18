@@ -3,7 +3,8 @@
 IDentiPet is an NFC-enabled pet collar identification and geospatial veterinary
 record system.
 
-For a no-local-database deployment, see `CLOUD_DEPLOYMENT.md`.
+Start with `LOCALHOST_SETUP.md`. Cloud deployment notes remain available in
+`CLOUD_DEPLOYMENT.md`, but localhost is the recommended first milestone.
 
 ## FRONTEND
 

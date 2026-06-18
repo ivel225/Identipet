@@ -1,7 +1,8 @@
-import { MapPin, PawPrint, Radio, Syringe } from "lucide-react";
-
+import EmptyState from "../components/EmptyState.jsx";
+import LoadingState from "../components/LoadingState.jsx";
 import PageHeader from "../components/PageHeader.jsx";
-import StatCard from "../components/StatCard.jsx";
+import SectionPanel from "../components/SectionPanel.jsx";
+import DashboardSummary from "../features/dashboard/DashboardSummary.jsx";
 import HouseholdMap from "../features/maps/HouseholdMap.jsx";
 import ScanLogPanel from "../features/scans/ScanLogPanel.jsx";
 import VaccinationSchedule from "../features/vaccinations/VaccinationSchedule.jsx";
@@ -17,17 +18,37 @@ export default function DashboardPage() {
         subtitle="Monitor registered households, field scans, and upcoming vaccination activity."
       />
       {error ? <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
-      <div className="grid gap-4 md:grid-cols-4">
-        <StatCard label="Owners" value={owners.length} detail={status} icon={MapPin} />
-        <StatCard label="Pets" value={pets.length} detail="Registered profiles" icon={PawPrint} />
-        <StatCard label="Vaccines" value={vaccinationRecords.length} detail="Tracked records" icon={Syringe} />
-        <StatCard label="Scans" value={scanLogs.length} detail="Current session" icon={Radio} />
-      </div>
+      <DashboardSummary
+        owners={owners}
+        pets={pets}
+        vaccinationRecords={vaccinationRecords}
+        scanLogs={scanLogs}
+        status={status}
+      />
+      {status === "loading" ? <LoadingState label="Loading dashboard records" /> : null}
+      {status !== "loading" && owners.length + pets.length + vaccinationRecords.length + scanLogs.length === 0 ? (
+        <EmptyState
+          title="No operational records yet"
+          description="Start by registering an owner, pet, and NFC tag assignment from the sidebar."
+        />
+      ) : null}
       <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
-        <HouseholdMap owners={owners} />
-        <VaccinationSchedule records={vaccinationRecords} />
+        <SectionPanel
+          title="Household Coverage"
+          description="Registered owner coordinates for field planning."
+        >
+          <HouseholdMap owners={owners} />
+        </SectionPanel>
+        <SectionPanel
+          title="Clinical Schedule"
+          description="Upcoming and overdue vaccination records."
+        >
+          <VaccinationSchedule records={vaccinationRecords} />
+        </SectionPanel>
       </div>
-      <ScanLogPanel scanLogs={scanLogs} />
+      <SectionPanel title="Field Activity" description="NFC collar scan history from field personnel.">
+        <ScanLogPanel scanLogs={scanLogs} />
+      </SectionPanel>
     </div>
   );
 }

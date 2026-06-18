@@ -1,5 +1,13 @@
+import os
+
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
+from django.utils import timezone
+
+
+MANAGE_SCHEMA_WITH_DJANGO = (
+    os.getenv("IDENTIPET_MANAGE_SCHEMA", "true").lower() == "true"
+)
 
 
 class User(models.Model):
@@ -32,7 +40,7 @@ class User(models.Model):
         return f"{self.name} ({self.role})"
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "users"
 
 
@@ -48,7 +56,7 @@ class Owner(models.Model):
         return self.full_name
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "owners"
 
 
@@ -72,7 +80,7 @@ class Pet(models.Model):
         return self.name
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "pets"
 
 
@@ -92,13 +100,13 @@ class NfcTag(models.Model):
     )
     unique_code = models.CharField(max_length=255, unique=True)
     status = models.CharField(max_length=16, choices=Statuses.choices)
-    issue_at = models.DateTimeField()
+    issue_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.unique_code
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "nfc_tags"
 
 
@@ -124,7 +132,7 @@ class VaccinationRecord(models.Model):
         return f"{self.vaccine_name} for {self.pet_id}"
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "vaccination_records"
 
 
@@ -142,11 +150,11 @@ class ScanHistory(models.Model):
         related_name="scan_history",
         on_delete=models.RESTRICT,
     )
-    scan_datetime = models.DateTimeField()
+    scan_datetime = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.tag_id} scanned by {self.user_id}"
 
     class Meta:
-        managed = False
+        managed = MANAGE_SCHEMA_WITH_DJANGO
         db_table = "scan_history"

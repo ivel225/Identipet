@@ -44,10 +44,10 @@ export default function PetForm({ onSaved }) {
   }
 
   return (
-    <form className="grid gap-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm" onSubmit={handleSubmit}>
+    <form className="glass-panel grid gap-4 rounded-xl p-4" onSubmit={handleSubmit}>
       <div>
-        <h2 className="text-base font-semibold text-ink">Pet Profile</h2>
-        <p className="text-sm text-slate-500">Create a pet profile or enter a pet ID to update an existing record.</p>
+        <h2 className="text-base font-semibold text-white">Pet Profile</h2>
+        <p className="text-sm text-white/58">Create a pet profile or enter a pet ID to update an existing record.</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <FormField label="Pet ID for update" id="pet-id" value={petId} onChange={(event) => setPetId(event.target.value)} />
@@ -61,7 +61,7 @@ export default function PetForm({ onSaved }) {
         <FormField label="Birth date" id="pet-birth-date" type="date" value={pet.birth_date} onChange={(event) => updatePet("birth_date", event.target.value)} />
       </div>
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-slate-500">{status === "saved" ? "Pet saved." : "Ready."}</p>
+        <p className="text-sm text-white/58">{status === "saved" ? "Pet saved." : "Ready."}</p>
         <Button icon={Save} disabled={status === "saving"} type="submit">
           {petId ? "Update Pet" : "Create Pet"}
         </Button>

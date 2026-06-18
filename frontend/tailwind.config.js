@@ -4,10 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#172033",
-        clinic: "#1F7A6E",
+        ink: "#0F172A",
+        clinic: "#0891B2",
+        health: "#059669",
+        aqua: "#22D3EE",
         amber: "#D58A1F",
-        skywash: "#EAF3F7",
+        skywash: "#ECFEFF",
+        night: "#07111F",
+        panel: "#0E1B2E",
       },
     },
   },

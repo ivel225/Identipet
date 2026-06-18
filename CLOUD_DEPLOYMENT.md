@@ -42,6 +42,15 @@ DJANGO_CORS_ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app
 Render will generate `DJANGO_SECRET_KEY` and `IDENTIPET_JWT_SECRET` from the
 blueprint.
 
+After the backend deploys, open Render's shell for the service and create the
+first administrator:
+
+```bash
+python manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
+```
+
+Use your real email and a strong password.
+
 ## 3. Vercel React Dashboard
 
 1. Import the same GitHub repository in Vercel.

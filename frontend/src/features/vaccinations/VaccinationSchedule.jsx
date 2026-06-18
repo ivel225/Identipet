@@ -1,5 +1,15 @@
 import DataTable from "../../components/DataTable.jsx";
+import StatusBadge from "../../components/StatusBadge.jsx";
 import { formatDate } from "../../utils/formatters.js";
+
+function dueVariant(dateValue) {
+  if (!dateValue) {
+    return "neutral";
+  }
+  const dueDate = new Date(dateValue);
+  const today = new Date();
+  return dueDate < today ? "danger" : "success";
+}
 
 const columns = [
   { key: "record_id", label: "Record" },
@@ -13,15 +23,27 @@ const columns = [
   {
     key: "next_due_date",
     label: "Next Due",
-    render: (row) => formatDate(row.next_due_date),
+    render: (row) => (
+      <div className="flex flex-wrap items-center gap-2">
+        <span>{formatDate(row.next_due_date)}</span>
+        <StatusBadge variant={dueVariant(row.next_due_date)}>
+          {dueVariant(row.next_due_date) === "danger" ? "Overdue" : "Scheduled"}
+        </StatusBadge>
+      </div>
+    ),
   },
 ];
 
 export default function VaccinationSchedule({ records }) {
   return (
-    <section className="grid gap-3">
-      <h2 className="text-base font-semibold text-ink">Vaccination Schedule</h2>
-      <DataTable columns={columns} rows={records} emptyLabel="No vaccination records are due." />
-    </section>
+    <div className="grid gap-3">
+      <DataTable
+        ariaLabel="Vaccination schedule"
+        columns={columns}
+        rows={records}
+        emptyLabel="No vaccination records"
+        emptyDescription="Vaccination schedules will appear once veterinary staff add records."
+      />
+    </div>
   );
 }

@@ -26,3 +26,20 @@ table and column names created by Pillar 1.
 - `POST /api/scans/` logs a field scan.
 - `GET /api/scan-history/` lists scan logs for dashboard users.
 - `POST /api/offline-sync/` accepts bulk offline payloads from mobile clients.
+
+## Create Superadmin
+
+After the database schema exists, create the first dashboard administrator with:
+
+```bash
+python manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
+```
+
+For cloud hosts, set these environment variables and run the same command without
+arguments:
+
+```text
+IDENTIPET_SUPERADMIN_EMAIL=admin@example.com
+IDENTIPET_SUPERADMIN_PASSWORD=ChangeThisPassword123!
+IDENTIPET_SUPERADMIN_NAME=System Administrator
+```

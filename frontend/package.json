@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint src --ext .js,.jsx",
     "test:structure": "node tests/structure.test.mjs",
-    "test:pillar3": "node tests/pillar3-contract.test.mjs"
+    "test:pillar3": "node tests/pillar3-contract.test.mjs",
+    "test:design": "node tests/design-system-contract.test.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.0",

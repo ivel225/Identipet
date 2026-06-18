@@ -3,16 +3,38 @@
 @tailwind utilities;
 
 :root {
-  color: #172033;
-  background: #f6f8fb;
+  --color-ink: #f8fafc;
+  --color-muted: #94a3b8;
+  --color-clinic: #22d3ee;
+  --color-health: #34d399;
+  --color-amber: #f59e0b;
+  --color-surface: rgba(7, 17, 31, 0.9);
+  --color-panel: rgba(14, 27, 46, 0.92);
+  --color-panel-soft: rgba(22, 78, 99, 0.16);
+  --color-border: rgba(165, 243, 252, 0.18);
+  color: #f8fbff;
+  background:
+    linear-gradient(rgba(165, 243, 252, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(165, 243, 252, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 16% 10%, rgba(34, 211, 238, 0.22), transparent 28%),
+    radial-gradient(circle at 84% 0%, rgba(5, 150, 105, 0.18), transparent 32%),
+    linear-gradient(135deg, #ecfeff 0%, #dff7f7 32%, #0f2740 33%, #07111f 100%);
+  background-size:
+    44px 44px,
+    44px 44px,
+    auto,
+    auto,
+    auto;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
 }
 
 button,
@@ -22,9 +44,57 @@ textarea {
   font: inherit;
 }
 
+:focus-visible {
+  outline: 4px solid rgba(8, 145, 178, 0.42);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+}
+
 .map-grid {
   background-image:
-    linear-gradient(rgba(31, 122, 110, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(31, 122, 110, 0.14) 1px, transparent 1px);
-  background-size: 36px 36px;
+    linear-gradient(rgba(34, 211, 238, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.13) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.glass-shell {
+  background:
+    linear-gradient(145deg, rgba(7, 17, 31, 0.96), rgba(14, 27, 46, 0.92)),
+    var(--color-surface);
+  border: 1px solid rgba(165, 243, 252, 0.22);
+  box-shadow:
+    0 28px 90px rgba(2, 6, 23, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.glass-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+    var(--color-panel);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 18px 48px rgba(2, 6, 23, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.field-grid {
+  background-image:
+    linear-gradient(rgba(165, 243, 252, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(165, 243, 252, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

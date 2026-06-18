@@ -10,8 +10,13 @@
     "mobile:start": "npm --prefix mobile run start",
     "mobile:build:apk": "npm --prefix mobile run build:apk",
     "mobile:test:pillar4": "npm --prefix mobile run test:pillar4",
+    "local:init-db": "powershell -ExecutionPolicy Bypass -File scripts/init-local-db.ps1",
+    "local:backend": "powershell -ExecutionPolicy Bypass -File scripts/start-backend.ps1",
+    "local:frontend": "powershell -ExecutionPolicy Bypass -File scripts/start-frontend.ps1",
+    "local:mobile": "powershell -ExecutionPolicy Bypass -File scripts/start-mobile.ps1",
     "backend:test:structure": "python backend/tests/test_scaffold_contract.py",
-    "test:structure": "node tests/fullstack-structure.test.mjs"
+    "test:structure": "node tests/fullstack-structure.test.mjs",
+    "test:localhost": "node tests/localhost-contract.test.mjs"
   },
   "workspaces": [
     "frontend",
