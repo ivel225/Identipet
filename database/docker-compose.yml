@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: identipet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: identipet
+      POSTGRES_USER: identipet
+      POSTGRES_PASSWORD: identipet_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - identipet_postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  identipet_postgres_data:

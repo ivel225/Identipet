@@ -1,0 +1,20 @@
+{
+  "name": "identipet-fullstack-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "frontend:test:structure": "npm --prefix frontend run test:structure",
+    "mobile:start": "npm --prefix mobile run start",
+    "mobile:build:apk": "npm --prefix mobile run build:apk",
+    "mobile:test:pillar4": "npm --prefix mobile run test:pillar4",
+    "backend:test:structure": "python backend/tests/test_scaffold_contract.py",
+    "test:structure": "node tests/fullstack-structure.test.mjs"
+  },
+  "workspaces": [
+    "frontend",
+    "mobile"
+  ]
+}

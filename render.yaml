@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: identipet-api
+    runtime: python
+    rootDir: backend
+    buildCommand: bash build.sh
+    startCommand: gunicorn identipet_backend.asgi:application -k uvicorn.workers.UvicornWorker
+    envVars:
+      - key: DJANGO_DEBUG
+        value: false
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: IDENTIPET_JWT_SECRET
+        generateValue: true
+      - key: IDENTIPET_JWT_ISSUER
+        value: identipet-api
+      - key: IDENTIPET_JWT_EXPIRY_MINUTES
+        value: 120
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL_REQUIRE
+        value: true
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false
+      - key: DJANGO_CORS_ALLOWED_ORIGINS
+        sync: false
