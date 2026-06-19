@@ -1,0 +1,41 @@
+{% extends "api/base.html" %}
+{% block title %}IDentiPet API{% endblock %}
+{% block content %}
+  <section class="hero">
+    <p class="eyebrow">{{ environment }}</p>
+    <h1>{{ service }}</h1>
+    <p class="lead">Backend service for pet records, NFC tag lookup, vaccination tracking, field scans, and offline sync.</p>
+    <div class="nav">
+      <a class="button" href="{{ links.api }}">Open API</a>
+      <a class="button" href="{{ links.docs }}">View Docs</a>
+      <a class="button" href="{{ links.health }}">Health Check</a>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Service summary">
+    {% for card in cards %}
+      <article class="card">
+        <p class="label">{{ card.label }}</p>
+        <p class="value">{{ card.value }}</p>
+      </article>
+    {% endfor %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Links</h2>
+    </div>
+    <div class="panel-body">
+      <ul class="resource-list">
+        {% for name, url in links.items %}
+          <li>
+            <a href="{{ url }}">
+              {{ name|title }}
+              <span>{{ url }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{% endblock %}

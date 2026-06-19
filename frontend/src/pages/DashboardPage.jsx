@@ -14,8 +14,7 @@ export default function DashboardPage() {
   return (
     <div className="grid gap-6">
       <PageHeader
-        title="Operational Dashboard"
-        subtitle="Monitor registered households, field scans, and upcoming vaccination activity."
+        title="Dashboard"
       />
       {error ? <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
       <DashboardSummary
@@ -28,25 +27,19 @@ export default function DashboardPage() {
       {status === "loading" ? <LoadingState label="Loading dashboard records" /> : null}
       {status !== "loading" && owners.length + pets.length + vaccinationRecords.length + scanLogs.length === 0 ? (
         <EmptyState
-          title="No operational records yet"
-          description="Start by registering an owner, pet, and NFC tag assignment from the sidebar."
+          title="No records yet"
+          description="Register an owner, pet, and NFC tag to begin."
         />
       ) : null}
       <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
-        <SectionPanel
-          title="Household Coverage"
-          description="Registered owner coordinates for field planning."
-        >
+        <SectionPanel title="Household Coverage">
           <HouseholdMap owners={owners} />
         </SectionPanel>
-        <SectionPanel
-          title="Clinical Schedule"
-          description="Upcoming and overdue vaccination records."
-        >
+        <SectionPanel title="Vaccinations">
           <VaccinationSchedule records={vaccinationRecords} />
         </SectionPanel>
       </div>
-      <SectionPanel title="Field Activity" description="NFC collar scan history from field personnel.">
+      <SectionPanel title="Field Activity">
         <ScanLogPanel scanLogs={scanLogs} />
       </SectionPanel>
     </div>

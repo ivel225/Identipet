@@ -38,6 +38,8 @@ assert.match(app, /DashboardPage/);
 assert.match(app, /OwnersPage/);
 assert.match(app, /PetsPage/);
 assert.match(app, /NfcTagsPage/);
+assert.match(app, /UsersPage/);
+assert.match(app, /VaccinationsPage/);
 
 const services = readFileSync(join(root, "src/services/apiClient.js"), "utf8");
 assert.match(services, /vaccination-records/);

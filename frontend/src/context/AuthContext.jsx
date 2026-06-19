@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 import { requestToken } from "../services/authService.js";
 
@@ -16,6 +16,15 @@ function loadStoredSession() {
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(loadStoredSession);
+
+  useEffect(() => {
+    function handleExpiredSession() {
+      setSession(null);
+    }
+
+    window.addEventListener("identipet:auth-expired", handleExpiredSession);
+    return () => window.removeEventListener("identipet:auth-expired", handleExpiredSession);
+  }, []);
 
   async function login(credentials) {
     const nextSession = await requestToken(credentials);

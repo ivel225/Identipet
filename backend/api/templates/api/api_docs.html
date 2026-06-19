@@ -1,0 +1,59 @@
+{% extends "api/base.html" %}
+{% block title %}API Docs{% endblock %}
+{% block content %}
+  <section class="hero">
+    <p class="eyebrow">Documentation</p>
+    <h1>{{ service }}</h1>
+    <p class="lead">Use Bearer JWT authentication for protected endpoints.</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Authentication</h2>
+      <span class="badge">{{ auth.type }}</span>
+    </div>
+    <div class="panel-body">
+      <pre>POST {{ auth.token_url }}
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "your-password"
+}</pre>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Endpoints</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Methods</th>
+            <th>Auth</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for endpoint in endpoints %}
+            <tr>
+              <td><code>{{ endpoint.path }}</code></td>
+              <td>
+                <div class="methods">
+                  {% for method in endpoint.methods %}
+                    <span class="method">{{ method }}</span>
+                  {% endfor %}
+                </div>
+              </td>
+              <td>{{ endpoint.auth }}</td>
+              <td>{{ endpoint.description }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

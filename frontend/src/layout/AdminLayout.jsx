@@ -1,17 +1,21 @@
-import { Activity, LogOut, MapPin, PawPrint, Radio, ShieldCheck, Syringe } from "lucide-react";
+import { Activity, LogOut, MapPin, PawPrint, Radio, ShieldCheck, Syringe, Users } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth.js";
+import { ROLES } from "../utils/roles.js";
 
 const navigation = [
   { to: "/dashboard", label: "Dashboard", icon: Syringe },
+  { to: "/dashboard/users", label: "Users", icon: Users, roles: [ROLES.ADMINISTRATOR] },
   { to: "/dashboard/owners", label: "Owners", icon: MapPin },
   { to: "/dashboard/pets", label: "Pets", icon: PawPrint },
+  { to: "/dashboard/vaccinations", label: "Vaccinations", icon: Syringe },
   { to: "/dashboard/nfc-tags", label: "NFC Tags", icon: Radio },
 ];
 
 export default function AdminLayout() {
   const { user, logout } = useAuth();
+  const visibleNavigation = navigation.filter((item) => !item.roles || item.roles.includes(user?.role));
 
   return (
     <div className="min-h-screen p-3 text-slate-100 sm:p-5 lg:p-8">
@@ -23,12 +27,11 @@ export default function AdminLayout() {
             </div>
             <div>
               <p className="text-base font-bold tracking-tight text-white">IDentiPet</p>
-              <p className="text-xs font-medium text-cyan-100/62">NFC field health network</p>
             </div>
           </div>
 
           <nav className="grid gap-2" aria-label="Primary dashboard navigation">
-            {navigation.map((item) => (
+            {visibleNavigation.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -54,7 +57,6 @@ export default function AdminLayout() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Local secure mode</p>
-                <p className="text-xs text-cyan-100/62">JWT protected dashboard</p>
               </div>
             </div>
           </div>
@@ -70,14 +72,14 @@ export default function AdminLayout() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">IDentiPet Command</p>
                   <h1 className="text-xl font-bold tracking-tight text-white">{user?.name ?? "User"}</h1>
-                  <p className="text-sm text-slate-300">{user?.role ?? "Authorized personnel"}</p>
+                  <p className="text-sm text-slate-300">{user?.role ?? "Personnel"}</p>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
                 <div className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-emerald-300/18 bg-emerald-300/10 px-3 text-sm font-semibold text-emerald-100">
                   <Activity className="h-4 w-4" aria-hidden="true" />
-                  Live local API
+                  Online
                 </div>
                 <button
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-cyan-100/14 bg-white/8 px-3 text-sm font-semibold text-white transition hover:bg-white/12"
@@ -92,8 +94,12 @@ export default function AdminLayout() {
             </div>
           </header>
 
-          <nav className="grid grid-cols-4 gap-2 border-b border-cyan-100/10 bg-slate-950/36 p-3 lg:hidden" aria-label="Mobile dashboard navigation">
-            {navigation.map((item) => (
+          <nav
+            className="grid gap-2 border-b border-cyan-100/10 bg-slate-950/36 p-3 lg:hidden"
+            style={{ gridTemplateColumns: `repeat(${visibleNavigation.length}, minmax(0, 1fr))` }}
+            aria-label="Mobile dashboard navigation"
+          >
+            {visibleNavigation.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}

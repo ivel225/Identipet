@@ -2,6 +2,10 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from api.views import (
+    ApiDocsView,
+    ApiIndexView,
+    CurrentUserView,
+    HealthCheckView,
     NfcTagViewSet,
     OfflineSyncView,
     OwnerViewSet,
@@ -10,11 +14,13 @@ from api.views import (
     ScanHistoryViewSet,
     ScanHistoryLogView,
     TokenObtainView,
+    UserViewSet,
     VaccinationRecordViewSet,
 )
 
 
 router = DefaultRouter()
+router.register("users", UserViewSet, basename="user")
 router.register("owners", OwnerViewSet, basename="owner")
 router.register("pets", PetViewSet, basename="pet")
 router.register("nfc-tags", NfcTagViewSet, basename="nfc-tag")
@@ -26,6 +32,10 @@ router.register(
 )
 
 urlpatterns = [
+    path("", ApiIndexView.as_view(), name="api-index"),
+    path("health/", HealthCheckView.as_view(), name="health-check"),
+    path("docs/", ApiDocsView.as_view(), name="api-docs"),
+    path("me/", CurrentUserView.as_view(), name="current-user"),
     path("auth/token/", TokenObtainView.as_view(), name="token-obtain"),
     path("", include(router.urls)),
     path(

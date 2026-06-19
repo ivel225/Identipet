@@ -10,6 +10,7 @@ const requiredFrontendFiles = [
   "src/features/owners/OwnerForm.jsx",
   "src/features/pets/PetForm.jsx",
   "src/features/nfc-tags/NfcTagAssignmentForm.jsx",
+  "src/features/vaccinations/VaccinationRecordForm.jsx",
   "src/features/registrations/RegistrationWorkspace.jsx",
   "src/features/maps/HouseholdMap.jsx",
   "src/features/scans/ScanLogPanel.jsx",
@@ -17,8 +18,11 @@ const requiredFrontendFiles = [
   "src/services/ownerService.js",
   "src/services/petService.js",
   "src/services/nfcTagService.js",
+  "src/services/userService.js",
   "src/services/scanService.js",
   "src/services/vaccinationService.js",
+  "src/pages/UsersPage.jsx",
+  "src/pages/VaccinationsPage.jsx",
 ];
 
 const missingFrontendFiles = requiredFrontendFiles.filter((path) => {
@@ -40,6 +44,8 @@ assert.match(dashboardService, /getOwners/);
 
 const apiClient = readFileSync(join(frontendRoot, "src/services/apiClient.js"), "utf8");
 assert.match(apiClient, /scanHistory: "\/scan-history\/"/);
+assert.match(apiClient, /users: "\/users\/"/);
+assert.match(apiClient, /ApiRequestError/);
 
 const backendViews = readFileSync(join(projectRoot, "backend/api/views.py"), "utf8");
 assert.match(backendViews, /class ScanHistoryViewSet/);

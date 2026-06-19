@@ -1,0 +1,32 @@
+{% extends "api/base.html" %}
+{% block title %}API Index{% endblock %}
+{% block content %}
+  <section class="hero">
+    <p class="eyebrow">API</p>
+    <h1>{{ service }}</h1>
+    <p class="lead">Resource index for local development and integration testing.</p>
+    <div class="nav">
+      <a class="button" href="/api/docs/">Docs</a>
+      <a class="button" href="/api/health/">Health</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Resources</h2>
+      <span class="badge">JWT</span>
+    </div>
+    <div class="panel-body">
+      <ul class="resource-list">
+        {% for resource in resources %}
+          <li>
+            <a href="{{ resource.path }}">
+              {{ resource.name }}
+              <span>{{ resource.path }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{% endblock %}

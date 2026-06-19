@@ -8,7 +8,9 @@ import NfcTagsPage from "./pages/NfcTagsPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import OwnersPage from "./pages/OwnersPage.jsx";
 import PetsPage from "./pages/PetsPage.jsx";
-import { ADMIN_DASHBOARD_ROLES } from "./utils/roles.js";
+import UsersPage from "./pages/UsersPage.jsx";
+import VaccinationsPage from "./pages/VaccinationsPage.jsx";
+import { ADMIN_DASHBOARD_ROLES, ADMIN_ONLY_ROLES } from "./utils/roles.js";
 
 export default function App() {
   return (
@@ -24,8 +26,17 @@ export default function App() {
         }
       >
         <Route index element={<DashboardPage />} />
+        <Route
+          path="users"
+          element={
+            <ProtectedRoute allowedRoles={ADMIN_ONLY_ROLES}>
+              <UsersPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="owners" element={<OwnersPage />} />
         <Route path="pets" element={<PetsPage />} />
+        <Route path="vaccinations" element={<VaccinationsPage />} />
         <Route path="nfc-tags" element={<NfcTagsPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />

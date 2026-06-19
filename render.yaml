@@ -4,7 +4,7 @@ services:
     runtime: python
     rootDir: backend
     buildCommand: bash build.sh
-    startCommand: gunicorn identipet_backend.asgi:application -k uvicorn.workers.UvicornWorker
+    startCommand: bash start.sh
     envVars:
       - key: DJANGO_DEBUG
         value: false
@@ -23,10 +23,22 @@ services:
       - key: USE_POSTGRES
         value: false
       - key: IDENTIPET_MANAGE_SCHEMA
-        value: false
+        value: true
       - key: DATABASE_SSL_REQUIRE
         value: true
       - key: DJANGO_ALLOWED_HOSTS
         sync: false
       - key: DJANGO_CORS_ALLOWED_ORIGINS
         sync: false
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: WHITENOISE_ENABLED
+        value: true
+      - key: DJANGO_SECURE_SSL_REDIRECT
+        value: true
+      - key: DJANGO_SESSION_COOKIE_SECURE
+        value: true
+      - key: DJANGO_CSRF_COOKIE_SECURE
+        value: true
+      - key: DJANGO_SECURE_HSTS_SECONDS
+        value: 31536000

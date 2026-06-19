@@ -1,22 +1,65 @@
-# IDentiPet Backend Pillar
+# IDentiPet Backend
 
 This service is the Django REST Framework API for IDentiPet.
 
-## Setup
+## Local Setup
 
-1. Start PostgreSQL with the database pillar.
-2. Create a Python virtual environment.
-3. Install dependencies with `pip install -r requirements.txt`.
-4. Copy `.env.example` to `.env` and set production-safe secrets.
-5. Run the SQL scripts from `../database/init` before starting the API.
-6. Start Django with `python manage.py runserver`.
+The local backend uses SQLite by default so it can run without Docker or local
+PostgreSQL.
 
-The database SQL remains the source of truth. Django models map onto the exact
-table and column names created by Pillar 1.
+```powershell
+cd backend
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate --run-syncdb
+.\.venv\Scripts\python.exe manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
+.\.venv\Scripts\python.exe manage.py runserver
+```
+
+## Production Readiness
+
+Production mode requires PostgreSQL and explicit secrets. Copy
+`.env.production.example` into your cloud provider's environment variables.
+
+Required deployment settings:
+
+- `DJANGO_DEBUG=false`
+- `DJANGO_SECRET_KEY`
+- `DJANGO_ALLOWED_HOSTS`
+- `DJANGO_CORS_ALLOWED_ORIGINS`
+- `DJANGO_CSRF_TRUSTED_ORIGINS`
+- `USE_DATABASE_URL=true`
+- `DATABASE_URL`
+- `DATABASE_SSL_REQUIRE=true`
+- `IDENTIPET_JWT_SECRET`
+
+Before deploying, run:
+
+```bash
+python manage.py check --deploy
+python manage.py check_deploy_ready
+```
+
+The production start script runs:
+
+```bash
+python manage.py migrate --run-syncdb --noinput
+python manage.py check --deploy
+python manage.py check_deploy_ready
+gunicorn identipet_backend.asgi:application -k uvicorn.workers.UvicornWorker
+```
+
+If `IDENTIPET_SUPERADMIN_EMAIL` and `IDENTIPET_SUPERADMIN_PASSWORD` are set,
+`start.sh` also creates or updates the first Administrator account.
 
 ## Main Endpoints
 
+- `GET /` opens the backend service page.
+- `GET /api/` opens the API resource index.
+- `GET /api/docs/` opens the backend API documentation page.
+- `GET /api/health/` checks API and database health.
 - `POST /api/auth/token/` obtains a JWT.
+- `GET|POST /api/users/` manages system user accounts. Administrator only.
 - `GET|POST /api/owners/` and `/api/owners/{id}/` manage owners.
 - `GET|POST /api/pets/` and `/api/pets/{id}/` manage pets.
 - `GET|POST /api/vaccination-records/` and `/api/vaccination-records/{id}/`
@@ -34,6 +77,9 @@ After the database schema exists, create the first dashboard administrator with:
 ```bash
 python manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
 ```
+
+Remove the bootstrap superadmin environment variables after the first successful
+deployment if you do not want future deploys to update that account.
 
 For cloud hosts, set these environment variables and run the same command without
 arguments:

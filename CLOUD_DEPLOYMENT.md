@@ -37,13 +37,30 @@ DATABASE_SSL_REQUIRE=true
 DJANGO_DEBUG=false
 DJANGO_ALLOWED_HOSTS=<your-render-service>.onrender.com
 DJANGO_CORS_ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app
+DJANGO_CSRF_TRUSTED_ORIGINS=https://<your-render-service>.onrender.com,https://<your-vercel-app>.vercel.app
+WHITENOISE_ENABLED=true
+DJANGO_SECURE_SSL_REDIRECT=true
+DJANGO_SESSION_COOKIE_SECURE=true
+DJANGO_CSRF_COOKIE_SECURE=true
+DJANGO_SECURE_HSTS_SECONDS=31536000
 ```
 
 Render will generate `DJANGO_SECRET_KEY` and `IDENTIPET_JWT_SECRET` from the
 blueprint.
 
-After the backend deploys, open Render's shell for the service and create the
-first administrator:
+The included `backend/start.sh` runs migrations, deployment checks, and Gunicorn.
+To create the first administrator automatically on the first deploy, set:
+
+```text
+IDENTIPET_SUPERADMIN_EMAIL=admin@example.com
+IDENTIPET_SUPERADMIN_PASSWORD=<strong-password>
+IDENTIPET_SUPERADMIN_NAME=System Administrator
+```
+
+After the first successful deployment, remove those bootstrap variables or keep
+them only if you intentionally want each deploy to update that account.
+
+You can also open Render's shell and create the first administrator manually:
 
 ```bash
 python manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
