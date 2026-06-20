@@ -9,6 +9,10 @@ if [ -n "$IDENTIPET_SUPERADMIN_EMAIL" ] && [ -n "$IDENTIPET_SUPERADMIN_PASSWORD"
   python manage.py create_superadmin
 fi
 
+if [ -n "$DJANGO_ADMIN_USERNAME" ] && [ -n "$DJANGO_ADMIN_PASSWORD" ]; then
+  python manage.py create_django_admin
+fi
+
 exec gunicorn identipet_backend.asgi:application \
   -k uvicorn.workers.UvicornWorker \
   --bind "0.0.0.0:${PORT:-8000}" \

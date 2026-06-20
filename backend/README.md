@@ -13,6 +13,7 @@ py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe manage.py migrate --run-syncdb
 .\.venv\Scripts\python.exe manage.py create_superadmin --email admin@example.com --password "ChangeThisPassword123!" --name "System Administrator"
+.\.venv\Scripts\python.exe manage.py create_django_admin --username backendadmin --email backendadmin@example.com --password "ChangeThisPassword123!"
 .\.venv\Scripts\python.exe manage.py runserver
 ```
 
@@ -52,9 +53,13 @@ gunicorn identipet_backend.asgi:application -k uvicorn.workers.UvicornWorker
 If `IDENTIPET_SUPERADMIN_EMAIL` and `IDENTIPET_SUPERADMIN_PASSWORD` are set,
 `start.sh` also creates or updates the first Administrator account.
 
+If `DJANGO_ADMIN_USERNAME` and `DJANGO_ADMIN_PASSWORD` are set, `start.sh` also
+creates or updates a Django Admin account for the backend database editor.
+
 ## Main Endpoints
 
 - `GET /` opens the backend service page.
+- `GET /admin/` opens the Django Admin database editor.
 - `GET /api/` opens the API resource index.
 - `GET /api/docs/` opens the backend API documentation page.
 - `GET /api/health/` checks API and database health.
@@ -89,3 +94,24 @@ IDENTIPET_SUPERADMIN_EMAIL=admin@example.com
 IDENTIPET_SUPERADMIN_PASSWORD=ChangeThisPassword123!
 IDENTIPET_SUPERADMIN_NAME=System Administrator
 ```
+
+## Backend Database Editor
+
+Django Admin is available at:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+This login is separate from the IDentiPet dashboard login. Use it when you want
+to directly view, create, edit, or delete backend data such as IDentiPet users,
+owners, pets, NFC tags, vaccination records, and scan history.
+
+Create the Django Admin backend account with:
+
+```bash
+python manage.py create_django_admin --username backendadmin --email backendadmin@example.com --password "ChangeThisPassword123!"
+```
+
+The React dashboard account is created with `create_superadmin`. The Django Admin
+backend account is created with `create_django_admin`.

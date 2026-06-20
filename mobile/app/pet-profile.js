@@ -19,6 +19,9 @@ export default function PetProfileScreen() {
 
     async function loadProfile() {
       try {
+        if (!uniqueCode) {
+          throw new Error("Missing NFC unique code.");
+        }
         const cached = await getCachedPetProfile(uniqueCode);
         if (!cancelled && cached) {
           setProfile(cached);

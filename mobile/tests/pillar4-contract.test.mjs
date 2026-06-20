@@ -8,8 +8,11 @@ const mobileRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const requiredPaths = [
   "app/_layout.js",
   "app/index.js",
+  "app/login.js",
   "app/pet-profile.js",
   "app/offline-sync.js",
+  "components/LoginForm.jsx",
+  "components/LoginForm.styles.js",
   "components/ScanPrompt.jsx",
   "components/ScanPrompt.styles.js",
   "components/PetProfileCard.jsx",
@@ -47,6 +50,13 @@ assert.match(syncService, /flushOfflineQueue/);
 
 const apiClient = readFileSync(join(mobileRoot, "services/apiClient.js"), "utf8");
 assert.match(apiClient, /\/offline-sync\//);
+assert.match(apiClient, /requestToken/);
+assert.match(apiClient, /SecureStore/);
+assert.match(apiClient, /logFieldScan/);
+
+const scanScreen = readFileSync(join(mobileRoot, "app/index.js"), "utf8");
+assert.match(scanScreen, /router\.replace\("\/login"\)/);
+assert.match(scanScreen, /queueScanLog/);
 
 const eas = readFileSync(join(mobileRoot, "eas.json"), "utf8");
 assert.match(eas, /"buildType": "apk"/);

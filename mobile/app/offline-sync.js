@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text } from "react-native";
 
 import OfflineSyncPanel from "../components/OfflineSyncPanel";
@@ -16,9 +16,17 @@ export default function OfflineSyncScreen() {
     setSummary(await getOfflineQueueSummary());
   }
 
+  useEffect(() => {
+    refreshSummary().catch((error) => setMessage(error.message));
+  }, []);
+
   async function handleSync() {
     setMessage("");
     try {
+      if (!isOnline) {
+        setMessage("Connect to the internet before syncing.");
+        return;
+      }
       const result = await flushOfflineQueue();
       setMessage(`Synced ${result.totalSynced} queued item(s).`);
       await refreshSummary();

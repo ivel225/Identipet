@@ -13,6 +13,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" options={{ title: "Scan Collar" }} />
+        <Stack.Screen name="login" options={{ title: "Log in" }} />
         <Stack.Screen name="pet-profile" options={{ title: "Pet Profile" }} />
         <Stack.Screen name="offline-sync" options={{ title: "Offline Sync" }} />
       </Stack>
